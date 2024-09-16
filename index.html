@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realistic CSS Solar System with Comets</title>
+    <style>
+      body {
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        perspective: 1000px;
+        background: radial-gradient(
+          circle at 50%,
+          rgba(0, 0, 0, 1),
+          rgba(20, 20, 70, 1),
+          rgba(0, 0, 0, 1)
+        );
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+      }
+      body:hover {
+        transform: scale(1.2);
+      }
+      .space {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+        animation: twinkle var(--twinkle-duration) infinite alternate;
+      }
+      @keyframes twinkle {
+        0% {
+          opacity: 0.2;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .solar-system {
+        width: 600px;
+        height: 600px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: tilt 20s infinite linear;
+      }
+      @keyframes tilt {
+        0% {
+          transform: rotateX(60deg) rotateZ(0deg);
+        }
+        100% {
+          transform: rotateX(60deg) rotateZ(360deg);
+        }
+      }
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 60px #ff4500;
+        }
+        50% {
+          box-shadow: 0 0 80px #ff6347;
+        }
+        100% {
+          box-shadow: 0 0 60px #ff4500;
+        }
+      }
+
+      .sun {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffd700, #ff4500);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 60px #ff4500;
+        animation: pulse 5s infinite;
+      }
+      .orbit {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .planet {
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .planet:hover {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        transform: scale(1.2);
+      }
+      .planet:hover .label {
+        visibility: visible;
+      }
+
+      .label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10px;
+        color: white;
+      }
+
+      @keyframes orbit {
+        from {
+          transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg) translateX(var(--orbit-radius))
+            rotate(-360deg);
+        }
+      }
+      @keyframes self-rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .mercury {
+        --orbit-radius: 100px;
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(30deg, #7a6a5f, #b1a49c);
+        animation: orbit 5s linear infinite;
+      }
+      .venus {
+        --orbit-radius: 140px;
+        width: 15px;
+        height: 15px;
+        background: linear-gradient(30deg, #c6884f, #e3b26d);
+        animation: orbit 8s linear infinite;
+      }
+      .earth {
+        --orbit-radius: 180px;
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(30deg, #2c54ab, #54d0ff);
+        animation: orbit 10s linear infinite;
+      }
+      .mars {
+        --orbit-radius: 220px;
+        width: 12px;
+        height: 12px;
+        background: linear-gradient(30deg, #a1251b, #e7846a);
+        animation: orbit 12s linear infinite;
+      }
+      .jupiter {
+        --orbit-radius: 280px;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(30deg, #a8894e, #e3bb79);
+        animation: orbit 30s linear infinite;
+      }
+      .saturn {
+        --orbit-radius: 350px;
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(30deg, #cbaf6f, #e6d9a8);
+        animation: orbit 40s linear infinite;
+      }
+      .saturn::after {
+        content: "";
+        position: absolute;
+        width: 40px;
+        height: 10px;
+        background: linear-gradient(30deg, #b1a084, #e3d7c2);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(30deg);
+      }
+      .uranus {
+        --orbit-radius: 420px;
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(30deg, #4989c2, #75b5e3);
+        animation: orbit 50s linear infinite;
+      }
+      .neptune {
+        --orbit-radius: 480px;
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(30deg, #3454aa, #5e7ce2);
+        animation: orbit 60s linear infinite;
+      }
+
+      .comet {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background-color: #fff;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform-origin: center center;
+      }
+      .comet::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(
+          to left,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 1)
+        );
+        top: 50%;
+        right: 4px;
+        transform: translateY(-50%);
+      }
+      .comet1 {
+        animation: cometOrbit1 15s linear infinite;
+      }
+      .comet2 {
+        animation: cometOrbit2 25s linear infinite;
+      }
+      @keyframes cometOrbit1 {
+        from {
+          transform: rotate(0deg) translateX(300px) rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg) translateX(300px) rotate(-360deg);
+        }
+      }
+      @keyframes cometOrbit2 {
+        from {
+          transform: rotate(180deg) translateX(400px) rotate(-180deg);
+        }
+        to {
+          transform: rotate(540deg) translateX(400px) rotate(-540deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="space"></div>
+    <div class="solar-system">
+      <div class="sun"></div>
+      <div class="orbit" style="width: 200px; height: 200px"></div>
+      <div class="orbit" style="width: 280px; height: 280px"></div>
+      <div class="orbit" style="width: 360px; height: 360px"></div>
+      <div class="orbit" style="width: 440px; height: 440px"></div>
+      <div class="orbit" style="width: 560px; height: 560px"></div>
+      <div class="orbit" style="width: 700px; height: 700px"></div>
+      <div class="orbit" style="width: 840px; height: 840px"></div>
+      <div class="orbit" style="width: 960px; height: 960px"></div>
+      <div class="planet mercury"><span class="label">Mercury</span></div>
+      <div class="planet venus"><span class="label">Venus</span></div>
+      <div class="planet earth"><span class="label">Earth</span></div>
+      <div class="planet mars"><span class="label">Mars</span></div>
+      <div class="planet jupiter"><span class="label">Jupiter</span></div>
+      <div class="planet saturn"><span class="label">Saturn</span></div>
+      <div class="planet uranus"><span class="label">Uranus</span></div>
+      <div class="planet neptune"><span class="label">Neptune</span></div>
+      <div class="comet comet1"><span class="label">Comet</span></div>
+      <div class="comet comet2"><span class="label">Comet</span></div>
+    </div>
+    <script>
+      const space = document.querySelector(".space");
+      for (let i = 0; i < 200; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.width = star.style.height = `${Math.random() * 2 + 1}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.setProperty(
+          "--twinkle-duration",
+          `${Math.random() * 3 + 1}s`
+        );
+        space.appendChild(star);
+      }
+    </script>
+  </body>
+</html>
